@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress CAS Server
-Version: 0.05
+Version: 1.0
 Plugin URI: http://borkweb.com/projects/wordpress-cas-server
 Description: Turns WordPress or WordPress MU into a <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on authenticator.  Based on the original, partially completed code by Casey Bisson (http://maisonbisson.com).
 Author: Matthew Batchelder
