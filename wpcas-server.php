@@ -25,7 +25,6 @@ Author URI: http://borkweb.com/
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA 
 */
-
 class wpCAS_server 
 {
 	/**
@@ -60,7 +59,6 @@ class wpCAS_server
 	public function init()
 	{
 		$path = self::get_path();
-
 		switch( substr($path, strpos($path, '/cas/') ) )
 		{
 			case '/cas/login/':
@@ -159,5 +157,5 @@ class wpCAS_server
 	}//end validate
 }//end class wpCAS_server
 
-if ( strpos( $_SERVER['REQUEST_URI'], '/cas/' ) && !is_admin() )
+if ( strstr( $_SERVER['REQUEST_URI'], '/cas/' ) && !is_admin() )
 	add_action( 'init', array( 'wpCAS_server', 'init' ));
