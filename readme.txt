@@ -3,6 +3,7 @@ Contributors: borkweb, misterbisson
 Tags: Auth, authentication, central authentication service, wpcas, wpcas-server, integration, phpCAS, CAS
 Requires at least: 2.8
 Tested up to: 2.9.2
+Stable tag: trunk
 
 Turns WordPress or WordPress MU into a CAS single sign-on authenticator.
 
@@ -11,10 +12,10 @@ Turns WordPress or WordPress MU into a CAS single sign-on authenticator.
 This plugin reserves a collection of URIs that create, validate, and destroy CAS tickets.
 
 * /cas/login :: If user is not authenticated he/she is redirected to the login page.  Otherwise the user is redirected to the service specified as a GET variable in the URL - or if service is not provided, the user is redirected to the WordPress instance's home.
-* /cas/logout :: The user's session is destroyed, user is logged out of the WordPress instance, and redirected to $_GET['service'] (or the blog home if service isn't provided) 
-* /cas/proxyValidate and /cas/validate :: The CAS ticket must be passed as a GET parameter in the URL when calling /cas/validate.  The ticket is validated and XML is output with either cas:authenticationSuccess or cas:authenticationFailure
 
-An action hook (wpcas_server_login) is provided during /cas/login to allow for the execution of additional login-specific code (e.g. adding extra session variables, etc).
+* /cas/logout :: The user's session is destroyed, user is logged out of the WordPress instance, and redirected to $_GET['service'] (or the blog home if service isn't provided) 
+
+* /cas/proxyValidate and /cas/validate :: The CAS ticket must be passed as a GET parameter in the URL when calling /cas/validate.  The ticket is validated and XML is output with either cas:authenticationSuccess or cas:authenticationFailure
 
 == Installation ==
 
@@ -22,6 +23,14 @@ An action hook (wpcas_server_login) is provided during /cas/login to allow for t
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
+
+= What version of CAS does this plugin replicate? =
+
+wpCAS Server currently replicates partial functionality of a CAS 2.0 server.
+
+= You just said "partial"...what doesn't this support? =
+
+Currently wpCAS Server has not implemented the Proxy ticketing found in the <a href="http://www.jasig.org/cas/cas2-architecture">CAS 2.0 architecture</a>.
 
 == Hooks & Filters ==
 
