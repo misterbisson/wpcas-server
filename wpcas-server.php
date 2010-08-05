@@ -90,7 +90,7 @@ class wpCAS_server
 		$ticket = 'ticket=' . self::create_ticket($user_ID);
 		if( isset( $_GET['service'] ) && $service = sanitize_url( $_GET['service'] ))
 		{
-			die( wp_redirect( $service . (strpos( $service . '?' ) ? '&' : '?'). $ticket ) );
+			die( wp_redirect( $service . (strpos( $service, '?' ) !== false ? '&' : '?'). $ticket ) );
 		}//end if
 
 		die( wp_redirect( get_option( 'home' )));
@@ -132,6 +132,7 @@ class wpCAS_server
 	public function validate()
 	{
 		self::session_start();
+
 
 		$path = self::get_path();
 
