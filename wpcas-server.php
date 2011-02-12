@@ -50,7 +50,7 @@ class wpCAS_server
 	 */
 	public function get_path()
 	{
-		return parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );		
+		return parse_url( 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], PHP_URL_PATH );		
 	}//end get_path
 
 	/**
@@ -116,14 +116,7 @@ class wpCAS_server
 	 */
 	public function session_start()
 	{
-		if($_COOKIE['PHPSESSID']) 
-		{
-			session_start($_COOKIE['PHPSESSID']);
-		}//end if
-		else 
-		{
-			session_start();
-		}//end else
+		session_start();
 	}//end session_start
 
 	/**
