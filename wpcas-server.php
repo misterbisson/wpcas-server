@@ -65,10 +65,12 @@ class wpCAS_server
 			case '/cas/login' : self::login(); break;
 			case '/cas/logout/':
 			case '/cas/logout' : self::logout(); break;
-			case '/cas/proxyValidate/':
-			case '/cas/proxyValidate' :
 			case '/cas/validate/':
 			case '/cas/validate' : self::validate(); break;
+			case '/cas/proxyValidate/':
+			case '/cas/proxyValidate' :
+			case '/cas/serviceValidate/':
+			case '/cas/serviceValidate' : self::serviceValidate(); break;
 			default : self::fail(); break;
 		}//end switch
 	}//end init
@@ -121,20 +123,29 @@ class wpCAS_server
 
 	/**
 	 * validate a given ticket
+	 * @return string user id
 	 */
-	public function validate()
+	public function _validate()
 	{
 		self::session_start();
-
 
 		$path = self::get_path();
 
 		$ticket = substr( $_GET['ticket'], 3 );
 		$decrypted_ticket = str_rot13($ticket);
 
+		if( isset( $_GET['ticket'] ) && $user_id = wp_validate_auth_cookie( $decrypted_ticket, 'auth' ) ) {
+			return $user_id;
+		}
+	}//end _validate
+
+	/**
+	 * CAS 2.0 serviceValidate.
+	 */
+	public function serviceValidate() {
 		$response = '<cas:serviceResponse xmlns:cas="'.get_bloginfo('url').'/cas">'."\n";
-		if( isset( $_GET['ticket'] ) && $user_id = wp_validate_auth_cookie( $decrypted_ticket, 'auth' ))
-		{
+
+		if( $user_id = self::_validate() ) {
 			$auth_value = apply_filters('wpcas_server_auth_value', $user_id);
 
 			$response .= '  <cas:authenticationSuccess>'."\n";
@@ -147,7 +158,21 @@ class wpCAS_server
 		}//end else
 		$response .= '</cas:serviceResponse>';
  
-		die($response);
+		die( $response );
+	}//end serviceValidate
+
+	/**
+	 * CAS 1.0 validate.
+	 */
+	public function validate() {
+		if( $user_id = self::_validate() ) {
+			$auth_value = apply_filters('wpcas_server_auth_value', $user_id);
+			$response = "yes\n{$auth_value}\n";
+		} else {
+			$response = "no\n\n";
+		}
+
+		die( $response );
 	}//end validate
 }//end class wpCAS_server
 
