@@ -75,6 +75,10 @@ class wpCAS_server {
 	public function login() {
 		global $userdata, $user_ID;
 
+		if( isset($_GET['renew']) && 'true' === $_GET['renew'] ) {
+			wp_logout();
+		}
+
 		if( !is_user_logged_in() ) {
 			die( auth_redirect() );
 		}//end if
