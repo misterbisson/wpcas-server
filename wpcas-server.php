@@ -75,8 +75,17 @@ class wpCAS_server {
 	public function login() {
 		global $userdata, $user_ID;
 
+		// renew requested; perform a logout, then send user back to this
+		// same page (minus renew=true) and let normal processing continue. 
+		// this prevents us from getting stuck in a "renew" loop.
 		if( isset($_GET['renew']) && 'true' === $_GET['renew'] ) {
 			wp_logout();
+
+			$proto = is_ssl() ? 'https://' : 'http://';
+			$url = $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$url = remove_query_arg( 'renew', $url );
+
+			die( wp_redirect( $url ) );
 		}
 
 		if( !is_user_logged_in() ) {
