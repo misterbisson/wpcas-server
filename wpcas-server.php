@@ -146,6 +146,10 @@ class wpCAS_server {
 	 * CAS 2.0 serviceValidate.
 	 */
 	public function serviceValidate() {
+		$auth_value = false;
+
+		header( 'Content-Type: text/xml' );
+
 		$response = '<cas:serviceResponse xmlns:cas="'.get_bloginfo('url').'/cas">'."\n";
 
 		if( $user_id = self::_validate() ) {
@@ -158,6 +162,8 @@ class wpCAS_server {
 			$response .= '  <cas:authenticationFailure code="">no</cas:authenticationFailure>'."\n";
 		}//end else
 		$response .= '</cas:serviceResponse>';
+
+		apply_filters( 'wpcas_server_auth_response', $response, $auth_value );
  
 		die( $response );
 	}//end serviceValidate
