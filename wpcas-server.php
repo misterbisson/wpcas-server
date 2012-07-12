@@ -163,7 +163,7 @@ class wpCAS_server {
 		}//end else
 		$response .= '</cas:serviceResponse>';
 
-		apply_filters( 'wpcas_server_auth_response', $response, $auth_value );
+		$response = apply_filters( 'wpcas_server_auth_response', $response, $auth_value );
  
 		die( $response );
 	}//end serviceValidate
