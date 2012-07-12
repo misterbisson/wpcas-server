@@ -150,7 +150,8 @@ class wpCAS_server {
 
 		header( 'Content-Type: text/xml' );
 
-		$response = '<cas:serviceResponse xmlns:cas="'.get_bloginfo('url').'/cas">'."\n";
+		$response = '<?xml version="1.0"?'.'>'."\n";
+		$response .= '<cas:serviceResponse xmlns:cas="'.get_bloginfo('url').'/cas">'."\n";
 
 		if( $user_id = self::_validate() ) {
 			$auth_value = apply_filters('wpcas_server_auth_value', $user_id);
